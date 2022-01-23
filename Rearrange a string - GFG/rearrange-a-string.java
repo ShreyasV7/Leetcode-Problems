@@ -46,6 +46,7 @@ class Solution
                 }
             }
             
-            return res+sum ; 
+            String j = sum + "" ;  
+            return (res+j) ; 
         }
 }
