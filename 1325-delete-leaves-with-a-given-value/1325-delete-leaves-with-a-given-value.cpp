@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
+    void dfs(TreeNode*&root, int target){
+        if(root==NULL) return ; 
+        
+        dfs(root->left,target)  ; 
+        dfs(root->right,target)  ;
+        
+        if(root->left==NULL && root->right==NULL && root->val == target){
+            root=NULL ; 
+        }
+    }
     TreeNode* removeLeafNodes(TreeNode* root, int target) {
-        
-        if(root == NULL)
-            return NULL ; 
-        
-        if(root->left) 
-            root->left =  removeLeafNodes(root->left,target)  ;
-        if(root->right)
-            root->right = removeLeafNodes(root->right,target)  ; 
-        
-        if(root->right==NULL && root->left==NULL && root->val == target)
-            return NULL; 
+        dfs(root,target)  ; 
         return root ; 
     }
 };
