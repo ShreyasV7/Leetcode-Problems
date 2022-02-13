@@ -10,24 +10,18 @@
  * };
  */
 class Solution {
-public:
-    vector<int>ans;  
-    void inorder(TreeNode*root){
-        if(root == NULL) return  ;  
+private:
+    bool helperFunction(TreeNode*root, long long int minimum, long long int maximum){
+        if(root == NULL) return true ; 
         
-        if(root->left) inorder(root->left)  ; 
+        if(root->val >= maximum || root->val <= minimum) return false; 
         
-        ans.push_back(root->val)  ; 
-        
-        if(root->right) inorder(root->right)  ;
+        return helperFunction(root->left, minimum, root->val) && helperFunction(root->right,root->val,maximum);
     }
+public:
     bool isValidBST(TreeNode* root) {
         
-        inorder(root)  ; 
-        
-        for(int i=0;i<(int)ans.size()-1; i++){
-            if(ans[i+1] <= ans[i]) return false ; 
-        }
-        return true;  
+        return helperFunction(root, LONG_MIN, LONG_MAX)  ;  
     }
+
 };
