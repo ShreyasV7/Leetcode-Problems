@@ -18,38 +18,33 @@ public:
     }
 };
 */
-
 class Solution {
 private:
-    map<Node*,Node*>mp ; 
+    Node* dfs(map<Node*,Node*>&mp , Node*src){
+        if(src == NULL) return NULL ; 
+        
+         if(mp.find(src)==mp.end()){
+             
+             mp[src] = new Node(src->val,{})  ; 
+             
+             
+             for(Node*child : src->neighbors){
+                 
+                 mp[src]->neighbors.push_back(dfs(mp,child)) ;  
+             }
+         }
+        
+        return mp[src]  ; 
+    }
 public:
     Node* cloneGraph(Node* node) {
         
-        if(node == NULL) return NULL;  
+        if(node == NULL) return NULL ; 
+        map<Node*,Node*>mp  ; 
         
-        Node*first = node ;
-        queue<Node*>q;  
-        mp[node] = new Node(node->val, {})  ; 
-        q.push(node)  ; 
+        //Node*first = node ; 
+        Node*first = dfs(mp,node)  ; 
         
-        while(q.size()){
-            
-            auto currNode = q.front()  ; 
-            q.pop()  ; 
-            
-            
-            for(Node*child : currNode->neighbors){
-                
-                if(mp.find(child) == mp.end()){
-                    
-                    mp[child] = new Node(child->val , {})   ;
-                    q.push(child)  ; 
-                }
-                
-                mp[currNode]->neighbors.push_back(mp[child])  ; 
-            }
-        }
-        
-        return mp[first]  ; 
+        return first; 
     }
 };
