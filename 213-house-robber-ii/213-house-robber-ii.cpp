@@ -1,27 +1,33 @@
 class Solution {
-private:
-    int maxAmount(vector<int>&nums, int index, int optFirst, vector<vector<int>>&dp){
-        
-        if(index >= nums.size()) return  0 ; 
-        if(index == nums.size()-1 && optFirst == 1) return 0 ;  
-        
-        if(dp[index][optFirst] != -1) return dp[index][optFirst]  ; 
-        
-        int opt1 = nums[index] + maxAmount(nums,index+2,optFirst,dp)  ; 
-        int opt2 = maxAmount(nums,index+1,optFirst,dp)  ; 
-        int opt3 = nums[index] + maxAmount(nums,index+2,1,dp)  ; 
-        
-        if(index == 0) return dp[index][optFirst] = max(opt3,opt2) ;  
-        else return dp[index][optFirst] = max(opt1,opt2)  ; 
-    }
 public:
     int rob(vector<int>& nums) {
         
-        int n = nums.size()  ;
-        vector<vector<int>>dp(101,vector<int>(101,-1))  ; 
+        int n = nums.size()  ; 
+        if(n==1) return nums[0]  ;
+        if(n==2) return max(nums[1],nums[0])  ; 
         
-        if(n==1) return nums[0]  ; 
+        vector<int>dp1(n)  ; 
         
-        return maxAmount(nums,0,0,dp)  ; 
+        dp1[0] = nums[0]  ; 
+        dp1[1] = max(nums[0],nums[1])  ; 
+        
+        for(int i=2;i<n-1;i++){
+            dp1[i] = max(dp1[i-2]+nums[i] , dp1[i-1])  ; 
+        }
+        
+        int res1 = dp1[n-2]  ;  
+        
+        vector<int>dp2(n)  ; 
+        
+        dp2[1] = nums[1]  ; 
+        dp2[2] = max(nums[1],nums[2])  ; 
+        
+        for(int i=3;i<n;i++){
+            dp2[i] = max(dp2[i-2]+nums[i] , dp2[i-1])  ;
+        }
+        
+        int res2 = dp2[n-1]  ; 
+        
+        return max(res2,res1)  ; 
     }
 };
