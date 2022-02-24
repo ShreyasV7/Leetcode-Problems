@@ -1,11 +1,8 @@
+// Tabulation Method 
 class Solution {
-public:
-    int rob(vector<int>& nums) {
-        
+private:
+    int excludingLastIndex(vector<int>&nums){
         int n = nums.size()  ; 
-        if(n==1) return nums[0]  ;
-        if(n==2) return max(nums[1],nums[0])  ; 
-        
         vector<int>dp1(n)  ; 
         
         dp1[0] = nums[0]  ; 
@@ -15,9 +12,12 @@ public:
             dp1[i] = max(dp1[i-2]+nums[i] , dp1[i-1])  ; 
         }
         
-        int res1 = dp1[n-2]  ;  
-        
-        vector<int>dp2(n)  ; 
+        return dp1[n-2]  ; 
+    }
+    
+    int excludingFirstIndex(vector<int>&nums){
+        int n = nums.size()  ; 
+        vector<int>dp2(n) ; 
         
         dp2[1] = nums[1]  ; 
         dp2[2] = max(nums[1],nums[2])  ; 
@@ -26,8 +26,22 @@ public:
             dp2[i] = max(dp2[i-2]+nums[i] , dp2[i-1])  ;
         }
         
-        int res2 = dp2[n-1]  ; 
+        return dp2[n-1]  ; 
+    }
+    
+public:
+    int rob(vector<int>& nums) {
         
-        return max(res2,res1)  ; 
+        int n = nums.size()  ; 
+        if(n==1) return nums[0]  ;
+        if(n==2) return max(nums[1],nums[0])  ; 
+        
+        int res1 = excludingLastIndex(nums)  ; 
+        int res2 = excludingFirstIndex(nums)  ; 
+        
+        return max(res1,res2)   ;
+        
+        // Time complexity = O(n)
+        // Space complexity = O(n)
     }
 };
