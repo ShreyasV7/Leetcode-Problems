@@ -12,11 +12,12 @@ public:
 int dp[11][1<<11];
 
 int f(int i, int mask, vector<vector<int>> &cost) {
-     if(mask  == 0) return cost[i][0];
+   
+    if(mask == 1 ) return dp[i][0] = cost[i][0]   ; 
     if(dp[i][mask] != -1) return dp[i][mask];
     
     int curAns = INT_MAX;
-    for(int j = 0; j < (int)cost.size(); j++) {
+    for(int j = 1; j <= (int)cost.size(); j++) {
         if((mask & (1 << j))) {
             curAns = min(curAns, cost[i][j] + f(j, mask ^ (1 << j), cost));
         }
@@ -29,7 +30,7 @@ int total_cost(vector<vector<int>>cost){
     memset(dp, -1, sizeof(dp));
     int n = cost.size();
     int current_mask = (1 << n) - 1;
-    current_mask = current_mask ^ (1 << 0);
+
     return f(0, current_mask, cost);
     
 }
