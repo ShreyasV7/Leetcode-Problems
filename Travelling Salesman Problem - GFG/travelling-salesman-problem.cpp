@@ -12,11 +12,11 @@ public:
 int dp[11][1<<11];
 
 int f(int i, int mask, vector<vector<int>> &cost) {
-    if(mask  == 0) return cost[i][0];
+     if(mask  == 0) return cost[i][0];
     if(dp[i][mask] != -1) return dp[i][mask];
     
     int curAns = INT_MAX;
-    for(int j = 31; j >= 0; j--) {
+    for(int j = 0; j < (int)cost.size(); j++) {
         if((mask & (1 << j))) {
             curAns = min(curAns, cost[i][j] + f(j, mask ^ (1 << j), cost));
         }
