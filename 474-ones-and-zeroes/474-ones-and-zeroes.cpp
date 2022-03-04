@@ -1,37 +1,35 @@
 class Solution {
-public:
-    int dp[603][103][103]  ; 
-    int func(vector<string>&str , int m , int n , int ind){
-        if(ind >= str.size()){
-            return 0 ; 
-        }
+private:
+    int dp[601][101][101]  ; 
+    int f(vector<string>&strs, int m, int n, int ind){
         
-        if(m < 0 || n < 0) return 0 ; 
-        if(m==0 && n==0) return 0 ; 
+        if(ind == strs.size()) return 0 ;  
+        
+        if( (m==0 && n == 0) ||(m < 0 && n < 0)) return 0 ;  
         
         if(dp[ind][m][n] != -1) return dp[ind][m][n]  ; 
         
-        string k = str[ind] ;  
-        int ones = 0 , zero=0 ; 
-        for(auto l : k){
-            if(l=='1') ones++ ; 
-            else zero++ ; 
+        int currZero =0 , currOne =0 ; 
+        
+        for(int i=0;i<strs[ind].size() ; i++){
+            if(strs[ind][i] == '1') currOne++ ; 
+            else currZero++ ; 
         }
         
-        if(n >= ones && m >=zero ){
-            return dp[ind][m][n] = max(1+func(str,m-zero,n-ones,ind+1) , func(str,m,n,ind+1))   ;
+        if(currZero <= m && currOne <=n){
+            
+            return dp[ind][m][n] =  max(1+f(strs,m-currZero,n-currOne,ind+1) , f(strs,m,n,ind+1) ) ;
         }
         else{
-            return dp[ind][m][n] = func(str,m,n,ind+1)  ; 
+            return dp[ind][m][n] = f(strs,m,n,ind+1) ; 
         }
-        
     }
+public:
     int findMaxForm(vector<string>& strs, int m, int n) {
         
-        int sz = strs.size()  ;
-         memset(dp,-1,sizeof(dp));
-        //vector<vector<vector<int>>>dp(601,vector<vector<int>>(101,vector<int>(101,-1)))  ; 
-        
-        return func(strs,m,n,0) ; 
+        int len = strs.size()  ;
+        memset(dp,-1,sizeof(dp)) ;  
+        int ans = f(strs,m,n,0)  ; 
+        return ans; 
     }
 };
