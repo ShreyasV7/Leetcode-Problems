@@ -1,39 +1,33 @@
 class Solution {
-private : 
-    bool TraversingRooms(vector<vector<int>>&rooms){
-        int n = rooms.size()  ; 
-        vector<bool>visit(n+1,false)  ; 
+private:
+    void dfs(int source,vector<vector<int>>&rooms,vector<bool>&visit, int &totalRooms){
         
-        queue<int>data;  
-        data.push(0)  ; 
-        visit[0]=true;  
-        
-        int totalRooms = 0  ; 
-        while(!data.empty()){
-            
-            auto currRoom = data.front()  ; 
-            data.pop() ; 
-            totalRooms++ ;
-            int sizeOfcurrRoom = rooms[currRoom].size()  ; 
-            for(int i=0;i<sizeOfcurrRoom;++i){
-                if(visit[rooms[currRoom][i]] == false){
-                    
-                    data.push(rooms[currRoom][i])  ; 
-                    
-                    visit[rooms[currRoom][i]] = true ;
-                }
-            }
+        if(visit[source] == true){
+            return  ; 
         }
         
-        return totalRooms==n ; 
+        totalRooms++  ; 
+        
+        visit[source] = true;  
+        
+        for(auto &keys : rooms[source]){
+            dfs(keys,rooms,visit,totalRooms) ;  
+        }
     }
-public: 
+public:
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
-          
-        bool ans = TraversingRooms(rooms)  ; 
         
-        return ans ;
+        int totalRooms = 0 ;  
         
+        int n = rooms.size()  ; 
+        int m = rooms[0].size()  ; 
        
+        vector<bool>visit(n+1,false)  ;  
+        
+        dfs(0,rooms,visit,totalRooms)  ; 
+        
+        //cout << totalRooms <<"\n" ; 
+        if(totalRooms == n) return true; 
+        return false;
     }
 };
