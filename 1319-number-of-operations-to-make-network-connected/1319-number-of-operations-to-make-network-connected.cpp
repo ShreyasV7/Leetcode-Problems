@@ -1,36 +1,61 @@
-class Solution {
-public:
-    void dfs(int i, vector<bool>&visit, vector<int>adj[]){
-        visit[i] = true ; 
+class Graph{
+    public:
+    void createAdjacencyList(vector<int>adjList[], vector<vector<int>>&connections){
         
-        for(auto &it : adj[i]){
-            if(visit[it]==false){
-                dfs(it,visit,adj)  ; 
+        for(int i=0;i<connections.size() ; i++){
+            adjList[connections[i][0]].push_back(connections[i][1]) ; 
+            adjList[connections[i][1]].push_back(connections[i][0]) ;
+        }
+    }
+    
+    void bfs(int source, vector<int>adjList[], vector<bool>&visit){
+        
+        visit[source] = true; 
+        
+        queue<int>q ; 
+        
+        q.push(source)  ; 
+        
+        while(q.size() > 0){
+            
+            auto currNode = q.front()  ; 
+            q.pop()   ; 
+            
+            for(auto &neighbours : adjList[currNode]){
+                if(visit[neighbours]==false){
+                    visit[neighbours]= true;  
+                    q.push(neighbours) ;  
+                }
             }
         }
     }
+    
+}  ;
+class Solution {
+public:
     int makeConnected(int n, vector<vector<int>>& connections) {
         
-        vector<int>adj[n+1]   ; 
+        Graph obj ; 
+        vector<int>adjList[n]  ; 
         
-        for(int i=0;i<connections.size();i++){
-            adj[connections[i][0]].push_back(connections[i][1])  ; 
-            adj[connections[i][1]].push_back(connections[i][0])  ; 
-        }
-        
-        if(connections.size() < n-1) return -1 ; 
-        
-        int cc =  0 ;
+        obj.createAdjacencyList(adjList,connections) ; 
         
         vector<bool>visit(n+1,false)  ; 
         
-        for(int i=0;i<n;i++){
+        int edgesPresent = n-1 ; 
+        
+        if(edgesPresent > connections.size()) 
+            return -1 ;
+        
+        int components = 0 ; 
+        for(int i = 0 ; i < n; i++){
             if(visit[i]==false){
-                dfs(i,visit,adj) ; 
-                cc++ ;  
+                 
+                obj.bfs(i,adjList,visit)  ; 
+                components++ ; 
             }
         }
-        
-        return cc-1 ; 
+        //cout << components <<"\n" ; 
+        return components-1 ; 
     }
 };
