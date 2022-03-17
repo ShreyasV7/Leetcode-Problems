@@ -1,28 +1,17 @@
 class Solution {
 public:
-    class Profit{
+    int maxProfit(vector<int>&arr) {
         
-        public:
+        int n = arr.size()  ;
         
-        int maximumProfit(vector<int>&prices){
-
-            int minimumStock = INT_MAX; 
-            int maximumProfit = INT_MIN; 
-            
-            int n = prices.size()  ; 
-            
-            for(int i=0;i<n;i++){
-                minimumStock = min(minimumStock , prices[i])  ; 
-                maximumProfit = max(maximumProfit, prices[i] - minimumStock)  ;  
-            }
-            
-            return maximumProfit ; 
+        int maximumProfit = INT_MIN; 
+        int minimumPurchase = INT_MAX; 
+        
+        for(int i=0;i<n;i++){
+            minimumPurchase = min(minimumPurchase, arr[i])   ; 
+            maximumProfit = max(maximumProfit, arr[i]-minimumPurchase)  ; 
         }
         
-    } ; 
-    int maxProfit(vector<int>& prices) {
-        
-        Profit obj ; 
-        return obj.maximumProfit(prices)  ;
+        return maximumProfit; \ 
     }
 };
