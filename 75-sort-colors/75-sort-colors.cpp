@@ -2,26 +2,19 @@ class Solution {
 public:
     void sortColors(vector<int>& nums) {
         
-        map<int,int>mp ; 
-        
-        for(auto &it : nums){
-            mp[it]++ ; 
-        }
-        
         int n = nums.size()  ; 
+        int low = 0 , mid = 0 , high = n-1 ; 
         
-        for(int i=0;i<n;i++){
-            if(mp[0] > 0){
-                nums[i] = 0 ;
-                mp[0]-- ;  
+        while(mid <= high){
+            
+            if(nums[mid] == 0){
+                swap(nums[low++] , nums[mid++])  ; 
             }
-            else if(mp[1] > 0){
-                nums[i] = 1 ;
-                mp[1]-- ;  
+            else if(nums[mid]==1){
+                mid++ ; 
             }
-            else if(mp[2] > 0){
-                nums[i] = 2 ;
-                mp[2]-- ;  
+            else if(nums[mid]==2){
+                swap(nums[mid] , nums[high--])  ;  
             }
         }
     }
