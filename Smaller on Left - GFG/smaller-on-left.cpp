@@ -38,25 +38,26 @@ int main() {
 
 vector<int> Smallestonleft(int arr[], int n)
 {
-    vector<int>ans;  
-    ans.push_back(-1)   ;  
-    set<int>st;  
+    
+    vector<int>res(n)  ; 
+    set<int>st ; 
+    
     st.insert(arr[0])  ; 
-    for(int i=1;i<n;i++){
+    res[0] = -1  ; 
+    
+    for(int i=1 ;i <n ; i++){
         
-        st.insert(arr[i])  ; 
+        st.insert(arr[i])  ;  
         
-        auto p = st.lower_bound(arr[i])  ; 
+        auto k = st.find(arr[i])  ; 
         
-        while(p != st.begin()){
-            if(arr[i] > *p) break ; 
-            else
-            p-- ; 
+        if(k==st.begin()) res[i] = -1 ; 
+        else {
+            k-- ; 
+            res[i] = *k ; 
         }
-        
-        if(*p < arr[i]) ans.push_back(*p)  ; 
-        else ans.push_back(-1)  ; 
     }
     
-    return ans; 
+    return res; 
+  
 }
