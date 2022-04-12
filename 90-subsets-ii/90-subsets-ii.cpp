@@ -22,8 +22,8 @@ public:
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         
         vector<vector<int>>res ; 
+        sort(nums.begin(),nums.end())  ;
         vector<int>temp ; 
-        sort(nums.begin(),nums.end()) ; 
         helper(nums,0,res,temp)  ; 
         
         
