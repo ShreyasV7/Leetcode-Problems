@@ -99,33 +99,37 @@ struct Node {
     }
 };*/
 
-class Solution{
+class nodeVal{
     public:
-    /*You are required to complete this method */
-    // Return the size of the largest sub-tree which is also a BST
-    int sizeBST(Node*root){
-        if(root==NULL) return 0  ; 
-        int left = sizeBST(root->left) ; 
-        int right = sizeBST(root->right) ;  
-        return 1+left+right ; 
+    int sz,mn,mx ; 
+    nodeVal(int sz, int mn, int mx){
+        this->sz = sz ; 
+        this->mn = mn ; 
+        this->mx = mx ; 
     }
-    bool checkBST(Node*root,int mn,int mx){
-        if(root==NULL) return 1;  
-        if(root->data <= mn || root->data >= mx) return 0 ;  
+} ; 
+
+
+class Solution{
+    private:
+    nodeVal f(Node*root){
+        if(root==NULL) return nodeVal(0,INT_MAX,INT_MIN)  ; 
         
-        bool left = checkBST(root->left,mn,root->data) ; 
-        bool right = checkBST(root->right,root->data,mx) ;
-        return left && right;  
+        nodeVal left = f(root->left)  ; 
+        nodeVal right = f(root->right)  ; 
+        if(root->data > left.mx && root->data < right.mn){
+            int currSize = 1+left.sz+right.sz ; 
+            int mini = min(root->data,left.mn)  ; 
+            int maxi = max(root->data,right.mx)  ; 
+            return nodeVal(currSize,mini,maxi)  ; 
+        }
+        return nodeVal(max(left.sz,right.sz) , INT_MIN,INT_MAX)  ;  
     }
+    public:
     int largestBst(Node *root)
     {
-        if(root==NULL) return 0  ; 
-        if(checkBST(root,INT_MIN,INT_MAX)){
-            return sizeBST(root)  ; 
-        }
-        int left = largestBst(root->left)  ; 
-        int right = largestBst(root->right) ; 
-        return max(left,right) ;  
+       nodeVal res = f(root)  ; 
+       return res.sz ; 
     }
 };
 
