@@ -4,24 +4,31 @@ public:
         
         if(nums.size()==0) return 0 ; 
         
-    
-        sort(nums.begin(),nums.end())  ; 
-        
-        int length = nums.size() , maximumLength = 1 , currLength = 1  ;
-        
-        for(int index = 1; index < length ; index++){
-            if(nums[index-1] + 1 == nums[index]){
-                currLength++ ; 
-                maximumLength = max(maximumLength,currLength)  ; 
-            }
-            else if(nums[index-1] == nums[index]){
-                continue;  
-            }
-            else{
-                currLength=1; 
-            }
+        set<int>uniqueNum ; 
+        for(int index = 0 ; index < nums.size(); index++){
+            uniqueNum.insert(nums[index])  ; 
         }
         
-        return maximumLength ; 
+        int left, right,maxLen = 1;  
+        
+        for(auto it : nums){
+            
+            left = it-1 , right = it+1 ; 
+            
+            uniqueNum.erase(it)  ; 
+            
+            while(uniqueNum.count(left)){
+                uniqueNum.erase(left) ;  
+                left-- ; 
+            }
+            
+            while(uniqueNum.count(right)){
+                uniqueNum.erase(right);
+                right++ ; 
+            }
+            maxLen = max(maxLen,right-left-1)  ; 
+        }
+        
+        return maxLen ; 
     }
 };
