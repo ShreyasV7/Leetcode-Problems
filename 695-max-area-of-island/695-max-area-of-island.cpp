@@ -1,32 +1,34 @@
 class Solution {
-private:
-     int dfs(int x, int y, vector<vector<int>>& grid, vector<vector<int>>&visit){
-        if(x < 0 || x>=grid.size() || y<0 || y>=grid[0].size()) return 0 ; 
-        
-        if(visit[x][y]==1 || grid[x][y]==0) return 0; 
-        
-        visit[x][y] = 1 ; 
-  
-        return 1+dfs(x+1,y, grid,visit)+dfs(x,y+1, grid,visit)+dfs(x-1,y, grid,visit)+dfs(x,y-1, grid,visit) ;
-    }
 public:
+    int dfs(int x,int y, vector<vector<int>>&grid,vector<vector<int>>&vis){
+        
+        
+        if(x<0||x>=grid.size()||y<0||y>=grid[0].size() || vis[x][y]==1 || grid[x][y]==0) return 0 ;  
+        
+        vis[x][y] = 1 ; 
+        int up = dfs(x-1,y,grid,vis);
+        int down = dfs(x+1,y,grid,vis);
+        int left = dfs(x,y-1,grid,vis);
+        int right = dfs(x,y+1,grid,vis);
+        
+        return 1+up+down+left+right; 
+    }
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         
-        int maxi = 0 , n=grid.size() , m=grid[0].size()  ; 
+        int r = grid.size()  ; 
+        int c = grid[0].size()  ; 
         
-        vector<vector<int>>visit(n,vector<int>(m,0))  ; 
+        vector<vector<int>>vis(r,vector<int>(c,0)) ;  
         
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                
-                if(grid[i][j]==1 && visit[i][j]==0){
-                
-                    maxi = max(maxi,dfs(i,j,grid,visit)) ; 
-                    
-                }
+        int maxarea = 0 ;  
+        
+        for(int i=0;i<r;++i){
+            for(int j=0;j<c;j++){
+                if(grid[i][j]==1 && vis[i][j]==0)
+                maxarea = max(maxarea,dfs(i,j,grid,vis))  ; 
             }
         }
         
-        return maxi ; 
+        return maxarea; 
     }
 };
