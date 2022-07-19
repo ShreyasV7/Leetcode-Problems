@@ -11,15 +11,17 @@
  */
 class Solution {
 public:
+    map<int,vector<TreeNode*>>mp ; 
+
     vector<TreeNode*> helper(int n){
         
-        if(n % 2 == 0 ){
-            return {} ;  
-        }
         if(n==1){
             TreeNode*root = new TreeNode(0)  ; 
-            return {root}; 
+            return mp[1] =  {root}; 
         }
+        
+        if(mp.find(n)!=mp.end()) return mp[n]  ; 
+        
         
         vector<TreeNode*>res;  
         for(int i=2;i<n;i++){
@@ -36,7 +38,7 @@ public:
             }
         }
         
-        return res;
+        return mp[n] = res;
     }
     vector<TreeNode*> allPossibleFBT(int n) {
         
