@@ -9,35 +9,31 @@
  * };
  */
 class Solution {
-
 public:
     ListNode* partition(ListNode* head, int x) {
-        vector<int>EqGreaterX , SmallX;  
-        ListNode*h1 = head ; 
-        while(h1){
-            if(h1->val >= x) EqGreaterX.push_back(h1->val)   ;
-            else SmallX.push_back(h1->val)  ; 
-            h1 = h1->next;  
+        ListNode*smallHead = new ListNode(0)  ;  
+        ListNode*bigHead = new ListNode(0)  ; 
+        ListNode*small = smallHead;  
+        ListNode*big = bigHead; 
+        
+        while(head){
+            if(head->val >= x){
+                
+                big->next = head; 
+                big = big->next; 
+            }
+            else{
+                
+                small->next = head; 
+                small = small->next;
+            }
+            head=head->next; 
         }
         
-        ListNode*newHead = head ; 
-        
-         for(int index = 0 ; index < SmallX.size(); index++){
-            newHead->val  = SmallX[index]  ; 
-            newHead=newHead->next ; 
-        }
-        
-        
-        //newHead = head;  
-        
-        
-        for(int index = 0 ; index < EqGreaterX.size(); index++){
-            newHead->val  = EqGreaterX[index]  ; 
-            newHead=newHead->next ; 
-        }
-        
-        
-        delete newHead ;
-        return head; 
+        // Merging both linkedlist; 
+        big->next=NULL;
+        small->next = bigHead->next; 
+          
+        return smallHead->next; 
     }
 };
