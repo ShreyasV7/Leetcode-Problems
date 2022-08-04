@@ -1,37 +1,29 @@
-class Path{
-    public:
-    
-    void findingAllPaths(int src, vector<vector<int>>&graph, vector<vector<int>>&paths,vector<int>&currPath){
-        
-        currPath.push_back(src)  ; 
-        
-        if(src == graph.size()-1){
-            paths.push_back(currPath) ; 
-            currPath.pop_back()   ; 
-            return; 
-        } 
-        
-        
-        for(auto &it : graph[src]){
-            
-            findingAllPaths(it,graph,paths,currPath)  ; 
-        }
-        
-        currPath.pop_back()  ; 
-        
-    }
-    
-} ; 
 class Solution {
 public:
+    void func(int node, vector<vector<int>>& graph, vector<int>&v,vector<vector<int>>&res){
+        
+        v.push_back(node)  ; 
+        int n=graph.size()  ; 
+        if(node==n-1){
+            res.push_back(v)  ;
+            v.pop_back() ; 
+            return  ; 
+        }
+        
+        for(auto c : graph[node]){
+            func(c,graph,v,res) ; 
+        }
+        
+        v.pop_back()  ; 
+    }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         
-        Path obj  ; 
-        vector<vector<int>>paths;  
-        vector<int>currPath; 
+        int n = graph.size()  ;
+        vector<vector<int>>res; 
+        vector<int>currPath ; 
         
-        obj.findingAllPaths(0,graph,paths,currPath)  ;
+        func(0,graph,currPath,res)  ; 
         
-        return paths;  
+        return res; 
     }
 };
