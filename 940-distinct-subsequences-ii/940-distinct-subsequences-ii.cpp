@@ -26,6 +26,9 @@ public:
     int distinctSubseqII(string s) {
         ll n = s.size()  ;
         vector<ll>dp(n+10,-1)  ;
-        return f(0,s,dp)  ; 
+        return f(0,s,dp)  ;
+        
+        //t.c = o(n^2) ;
+        // s.c = o(n^2)  ; 
     }
 };
