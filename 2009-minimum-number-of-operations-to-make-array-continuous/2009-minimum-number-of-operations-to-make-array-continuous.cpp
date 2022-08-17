@@ -2,30 +2,30 @@ class Solution {
 public:
     int minOperations(vector<int>& nums) {
         
-        int n1 = nums.size()  ; 
+        int n1 = nums.size() ;  
+        int mn = INT_MAX; 
         
-        set<int>st ; 
-        for(int i=0;i<n1;i++){
+        int j =0  ; 
+        set<int>st; 
+        for(int i = 0  ; i<n1;i ++){
             st.insert(nums[i])  ; 
         }
-        nums.clear() ; 
-        for(auto j : st){
-            nums.push_back(j)  ; 
+        nums.clear()  ; 
+        for(auto &it : st){
+            nums.push_back(it)  ;
         }
-        sort(nums.begin(),nums.end())  ; 
-        int n = nums.size()  ;
-        int mn = INT_MAX;
+        int n = nums.size() ; 
         for(int i=0;i<n;i++){
-            
-            int endNum = nums[i]+n1-1 ; 
-            int endind = upper_bound(nums.begin(),nums.end(),endNum)-nums.begin() ;  
-            int startind = i ; 
-            int rest = n1-endind+startind; 
-            mn = min(mn,rest)  ; 
-           // cout << i <<" "<< mn <<" "<< endNum <<" "<< endind <<" "<< startind <<" "<< rest <<"\n"  ;
+            while(j<n && nums[j] <= nums[i]+n1-1){
+                j++ ; 
+            }
+            mn = min(mn,n1-(j-i)) ; 
         }
         
-        if(mn == INT_MAX) return 0  ;
+        // tc = O(nlogn) 
+        // sc = O(1)
+        if(mn==INT_MAX)return 0 ;  
+        
         return mn ; 
     }
 };
