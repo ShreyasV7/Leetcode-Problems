@@ -13,7 +13,8 @@ public:
             res = res | nums[j]  ; 
             maxlen = max(maxlen,j-i+1)  ; 
         }
-        
+        // time complexity : O(n) 
+        // space complexity : O(1) 
         return maxlen ;  
     }
 };
