@@ -36,5 +36,7 @@ public:
         memset(cache,-1,sizeof(cache)) ; 
         int total = f(0,piles,1,1) ;  
         return total ; 
+        // time complexity : O(n*n*2) 
+        // space complexity : O(n*n*2)
     }
 };
