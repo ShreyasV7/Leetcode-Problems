@@ -3,7 +3,7 @@ public:
     int maximumSwap(int num) {
         
         string str=to_string(num)  ; 
-        map<int,int>mp ;  
+        unordered_map<int,int>mp ;  
         
         int l = str.size() ;  
         for(int i=0;i<l;++i){
